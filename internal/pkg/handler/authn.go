@@ -2,22 +2,22 @@ package handler
 
 import (
 	"context"
-	"fmt"
 
 	authn "github.com/koverto/authn/api"
-	"github.com/koverto/uuid"
-	"golang.org/x/crypto/bcrypt"
 
+	"github.com/koverto/errors"
 	"github.com/koverto/mongo"
+	"github.com/koverto/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	mmongo "go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/x/bsonx"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const AUTHN_COLLECTION_CREDENTIALS = "credentials"
-const AUTHN_ERROR_INVALID_CREDENTIAL_TYPE = "invalid credential type"
 
 type Authn struct {
+	*Config
 	client mongo.Client
 }
 
@@ -32,14 +32,14 @@ func New(conf *Config) (*Authn, error) {
 
 	client.DefineIndexes(mongo.NewIndexSet(AUTHN_COLLECTION_CREDENTIALS, index))
 
-	return &Authn{client}, nil
+	return &Authn{conf, client}, nil
 }
 
 func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.CredentialResponse) error {
 	in.Id = uuid.New()
 	out.Success = false
 
-	switch in.GetCredentialType() {
+	switch ct := in.GetCredentialType(); ct {
 	case authn.CredentialType_PASSWORD:
 		password, err := bcrypt.GenerateFromPassword(in.Credential, bcrypt.DefaultCost)
 		if err != nil {
@@ -48,7 +48,7 @@ func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.Cre
 
 		in.Credential = password
 	default:
-		return fmt.Errorf(AUTHN_ERROR_INVALID_CREDENTIAL_TYPE)
+		return a.InvalidCredentialType(ct)
 	}
 
 	ins, err := bson.Marshal(in)
@@ -73,22 +73,27 @@ func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.C
 
 	result := &authn.Credential{}
 	if err := collection.FindOne(ctx, filter).Decode(result); err != nil {
+		if err == mmongo.ErrNoDocuments {
+			return a.InvalidCredential()
+		}
+
 		return err
 	}
 
-	switch in.CredentialType {
+	switch ct := in.GetCredentialType(); ct {
 	case authn.CredentialType_PASSWORD:
 		if err := bcrypt.CompareHashAndPassword(result.GetCredential(), in.GetCredential()); err != nil {
-			return err
+			return a.InvalidCredential()
 		}
+
+		out.Success = true
 	default:
-		return fmt.Errorf(AUTHN_ERROR_INVALID_CREDENTIAL_TYPE)
+		return a.InvalidCredentialType(ct)
 	}
 
-	out.Success = true
 	return nil
 }
 
 func (a *Authn) Update(ctx context.Context, in *authn.CredentialUpdate, out *authn.CredentialResponse) error {
-	return fmt.Errorf("not yet implemented") // TODO
+	return errors.NotImplemented(a.ID())
 }

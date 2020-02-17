@@ -238,6 +238,8 @@ github.com/klauspost/cpuid v1.2.0/go.mod h1:Pj4uuM528wm8OyEC2QMXAi2YiTZ96dNQPGgo
 github.com/kolo/xmlrpc v0.0.0-20190717152603-07c4ee3fd181/go.mod h1:o03bZfuBwAXHetKXuInt4S7omeXUu62/A845kiycsSQ=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/konsorten/go-windows-terminal-sequences v1.0.2/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
+github.com/koverto/errors v1.0.0 h1:PSIowpG1SwnbGGSAPX+uZBRTCZf6as9yJ3uM4SRnZgA=
+github.com/koverto/errors v1.0.0/go.mod h1:OReSf5tTNjS8Agk7q6qlleq+lAc0EssoWnfaezehwoE=
 github.com/koverto/mongo v1.0.0 h1:z36PoGVjbtORJJIiSMsrANTfCsTzN3w3zxSru/v34Ko=
 github.com/koverto/mongo v1.0.0/go.mod h1:keeVIswfKfgTl0fuxlrLb0IJuDO6JB1/qlntNmkekFg=
 github.com/koverto/uuid v1.1.0 h1:loQnXEpQY+SIhuuYNBTB3HzrNjKtG+ExWc79oY14z08=

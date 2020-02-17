@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"github.com/micro/go-micro/v2/config"
 	"github.com/micro/go-micro/v2/config/source"
 )
@@ -22,4 +24,8 @@ func NewConfig(name string, source ...source.Source) (*Config, error) {
 
 	err := config.Scan(conf)
 	return conf, err
+}
+
+func (c *Config) ID() string {
+	return fmt.Sprintf("com.koverto.svc.%s", c.Name)
 }
