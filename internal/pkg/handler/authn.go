@@ -63,7 +63,27 @@ func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.Cre
 }
 
 func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.CredentialResponse) error {
-	return fmt.Errorf("not yet implemented") // TODO
+	out.Success = false
+
+	filter := bson.D{{Key: "userid", Value: in.UserID}, {Key: "credentialtype", Value: in.CredentialType}}
+	collection := a.client.Collection(("credentials"))
+
+	result := &authn.Credential{}
+	if err := collection.FindOne(ctx, filter).Decode(result); err != nil {
+		return err
+	}
+
+	switch in.CredentialType {
+	case authn.CredentialType_PASSWORD:
+		if err := bcrypt.CompareHashAndPassword(result.GetCredential(), in.GetCredential()); err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("invalid credential type")
+	}
+
+	out.Success = true
+	return nil
 }
 
 func (a *Authn) Update(ctx context.Context, in *authn.CredentialUpdate, out *authn.CredentialResponse) error {
