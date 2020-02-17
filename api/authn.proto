@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "github.com/gogo/protobuf@v1.3.1/gogoproto/gogo.proto";
+import "github.com/koverto/uuid/uuid.proto";
+
+package authn;
+
+service Authn {
+    rpc Create(Credential) returns (CredentialResponse) {}
+    rpc Validate(Credential) returns (CredentialResponse) {}
+    rpc Update(CredentialUpdate) returns (CredentialResponse) {}
+}
+
+enum CredentialType {
+    NONE = 0;
+    PASSWORD = 1;
+}
+
+message Credential {
+    uuid.UUID id = 1 [(gogoproto.moretags) = "bson:\"_id\""];
+    uuid.UUID userID = 2;
+    CredentialType credentialType = 3;
+    bytes credential = 4;
+}
+
+message CredentialResponse {
+    bool success = 1;
+}
+
+message CredentialUpdate {
+    Credential current = 1;
+    Credential new = 2;
+}
