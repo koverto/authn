@@ -26,10 +26,13 @@ func New(conf *Config) (*Credentials, error) {
 		return nil, err
 	}
 
-	var index mmongo.IndexModel
-	index.Keys = bson.M{"userid": 1}
+	var uidIndex mmongo.IndexModel
+	uidIndex.Keys = bson.M{"userid": 1}
 
-	client.DefineIndexes(mongo.NewIndexSet(CREDENTIALS_COLLECTION, index))
+	var credIndex mmongo.IndexModel
+	credIndex.Keys = bson.M{"credential": "hashed"}
+
+	client.DefineIndexes(mongo.NewIndexSet(CREDENTIALS_COLLECTION, uidIndex, credIndex))
 	if err := client.Connect(); err != nil {
 		return nil, err
 	}
