@@ -5,8 +5,11 @@ import (
 	"fmt"
 
 	authn "github.com/koverto/authn/api"
+	"github.com/koverto/uuid"
+	"golang.org/x/crypto/bcrypt"
 
 	"github.com/koverto/mongo"
+	"go.mongodb.org/mongo-driver/bson"
 	mmongo "go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/x/bsonx"
 )
@@ -30,7 +33,33 @@ func New(conf *Config) (*Authn, error) {
 }
 
 func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.CredentialResponse) error {
-	return fmt.Errorf("not yet implemented") // TODO
+	in.Id = uuid.New()
+	out.Success = false
+
+	switch in.GetCredentialType() {
+	case authn.CredentialType_PASSWORD:
+		password, err := bcrypt.GenerateFromPassword(in.Credential, bcrypt.DefaultCost)
+		if err != nil {
+			return err
+		}
+
+		in.Credential = password
+	default:
+		return fmt.Errorf("invalid credential type")
+	}
+
+	ins, err := bson.Marshal(in)
+	if err != nil {
+		return err
+	}
+
+	collection := a.client.Collection("credentials")
+	_, err = collection.InsertOne(ctx, ins)
+	if err == nil {
+		out.Success = true
+	}
+
+	return err
 }
 
 func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.CredentialResponse) error {
