@@ -14,6 +14,9 @@ import (
 	"go.mongodb.org/mongo-driver/x/bsonx"
 )
 
+const AUTHN_COLLECTION_CREDENTIALS = "credentials"
+const AUTHN_ERROR_INVALID_CREDENTIAL_TYPE = "invalid credential type"
+
 type Authn struct {
 	client mongo.Client
 }
@@ -27,7 +30,7 @@ func New(conf *Config) (*Authn, error) {
 	var index mmongo.IndexModel
 	index.Keys = bsonx.Doc{{Key: "userid", Value: bsonx.Int32(1)}}
 
-	client.DefineIndexes(mongo.NewIndexSet("credentials", index))
+	client.DefineIndexes(mongo.NewIndexSet(AUTHN_COLLECTION_CREDENTIALS, index))
 
 	return &Authn{client}, nil
 }
@@ -45,7 +48,7 @@ func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.Cre
 
 		in.Credential = password
 	default:
-		return fmt.Errorf("invalid credential type")
+		return fmt.Errorf(AUTHN_ERROR_INVALID_CREDENTIAL_TYPE)
 	}
 
 	ins, err := bson.Marshal(in)
@@ -53,7 +56,7 @@ func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.Cre
 		return err
 	}
 
-	collection := a.client.Collection("credentials")
+	collection := a.client.Collection(AUTHN_COLLECTION_CREDENTIALS)
 	_, err = collection.InsertOne(ctx, ins)
 	if err == nil {
 		out.Success = true
@@ -66,7 +69,7 @@ func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.C
 	out.Success = false
 
 	filter := bson.D{{Key: "userid", Value: in.UserID}, {Key: "credentialtype", Value: in.CredentialType}}
-	collection := a.client.Collection(("credentials"))
+	collection := a.client.Collection((AUTHN_COLLECTION_CREDENTIALS))
 
 	result := &authn.Credential{}
 	if err := collection.FindOne(ctx, filter).Decode(result); err != nil {
@@ -79,7 +82,7 @@ func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.C
 			return err
 		}
 	default:
-		return fmt.Errorf("invalid credential type")
+		return fmt.Errorf(AUTHN_ERROR_INVALID_CREDENTIAL_TYPE)
 	}
 
 	out.Success = true
