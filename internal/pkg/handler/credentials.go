@@ -73,23 +73,23 @@ func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, ou
 func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, out *credentials.CredentialResponse) error {
 	out.Success = false
 
-	filter := bson.M{
-		"userid":         in.UserID,
-		"credentialtype": in.CredentialType,
-	}
-
-	collection := a.client.Collection((CREDENTIALS_COLLECTION))
-	result := &credentials.Credential{}
-
-	if err := collection.FindOne(ctx, filter).Decode(result); err != nil {
-		if err == mmongo.ErrNoDocuments {
-			return a.InvalidCredential()
-		}
-		return err
-	}
-
 	switch ct := in.GetCredentialType(); ct {
 	case credentials.CredentialType_PASSWORD:
+		filter := bson.M{
+			"userid":         in.UserID,
+			"credentialtype": in.CredentialType,
+		}
+
+		collection := a.client.Collection((CREDENTIALS_COLLECTION))
+		result := &credentials.Credential{}
+
+		if err := collection.FindOne(ctx, filter).Decode(result); err != nil {
+			if err == mmongo.ErrNoDocuments {
+				return a.InvalidCredential()
+			}
+			return err
+		}
+
 		if err := bcrypt.CompareHashAndPassword(result.GetCredential(), in.GetCredential()); err != nil {
 			return a.InvalidCredential()
 		}
