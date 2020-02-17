@@ -250,6 +250,8 @@ github.com/kolo/xmlrpc v0.0.0-20190717152603-07c4ee3fd181/go.mod h1:o03bZfuBwAXH
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/konsorten/go-windows-terminal-sequences v1.0.2 h1:DB17ag19krx9CFsz4o3enTrPXyIXCl+2iCXH/aMAp9s=
 github.com/konsorten/go-windows-terminal-sequences v1.0.2/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
+github.com/koverto/authn v0.0.0-20200217204144-315b2c74c136 h1:TPrVHRp1nxZy+H/0geubZyaeHJb9XJKFGyxHNS2Tu+g=
+github.com/koverto/authn v0.0.0-20200217204144-315b2c74c136/go.mod h1:hMsotye/vrI2d6lf4ui6KLckq/PUSGYjb15O4+C9nEk=
 github.com/koverto/errors v1.0.0 h1:PSIowpG1SwnbGGSAPX+uZBRTCZf6as9yJ3uM4SRnZgA=
 github.com/koverto/errors v1.0.0/go.mod h1:OReSf5tTNjS8Agk7q6qlleq+lAc0EssoWnfaezehwoE=
 github.com/koverto/mongo v1.0.1 h1:2fkqdPBONOviu+PK5e2+pZpUTSpnQfbQlMACpEswkjw=

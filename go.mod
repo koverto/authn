@@ -1,10 +1,11 @@
-module github.com/koverto/authn
+module github.com/koverto/credentials
 
 go 1.13
 
 require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.3
+	github.com/koverto/authn v0.0.0-20200217204144-315b2c74c136 // indirect
 	github.com/koverto/errors v1.0.0
 	github.com/koverto/mongo v1.0.1
 	github.com/koverto/uuid v1.1.0

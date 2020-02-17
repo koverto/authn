@@ -2,11 +2,11 @@
 
 .PHONY: build
 build: gen
-	go build ./cmd/authn
+	go build ./cmd/credentials
 
 .PHONY: docker
 docker: build
-	docker build . -t koverto/authn:latest
+	docker build . -t koverto/credentials:latest
 
 .PHONY: gen
 gen:
@@ -14,4 +14,4 @@ gen:
 
 .PHONY: run
 run: gen
-	go run ./cmd/authn
+	go run ./cmd/credentials

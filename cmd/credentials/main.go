@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	authn "github.com/koverto/authn/api"
-	"github.com/koverto/authn/internal/pkg/handler"
+	credentials "github.com/koverto/credentials/api"
+	"github.com/koverto/credentials/internal/pkg/handler"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/config/source/env"
 )
 
 func main() {
-	service := micro.NewService(micro.Name("authn"))
+	service := micro.NewService(micro.Name("credentials"))
 	service.Init()
 
-	conf, err := handler.NewConfig("authn", env.NewSource(env.WithStrippedPrefix("KOVERTO")))
+	conf, err := handler.NewConfig("credentials", env.NewSource(env.WithStrippedPrefix("KOVERTO")))
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -26,7 +26,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := authn.RegisterAuthnHandler(service.Server(), h); err != nil {
+	if err := credentials.RegisterCredentialsHandler(service.Server(), h); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}

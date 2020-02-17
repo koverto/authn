@@ -1,5 +1,5 @@
 FROM golang:1.13-alpine AS builder
-WORKDIR /go/src/github.com/kvoerto/users
+WORKDIR /go/src/github.com/kvoerto/credentials
 ENV CGO_ENABLED=0 GO111MODULE=on
 
 RUN apk add bash build-base curl git
@@ -14,5 +14,5 @@ RUN go test ./... && \
     go install ./cmd/...
 
 FROM scratch
-COPY --from=builder /go/bin/users /go/bin/
-ENTRYPOINT [ "/go/bin/users" ]
+COPY --from=builder /go/bin/credentials /go/bin/
+ENTRYPOINT [ "/go/bin/credentials" ]

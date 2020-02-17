@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 
-	authn "github.com/koverto/authn/api"
+	credentials "github.com/koverto/credentials/api"
 
 	"github.com/koverto/errors"
 	"github.com/koverto/mongo"
@@ -13,14 +13,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-const AUTHN_COLLECTION_CREDENTIALS = "credentials"
+const CREDENTIALS_COLLECTION = "credentials"
 
-type Authn struct {
+type Credentials struct {
 	*Config
 	client mongo.Client
 }
 
-func New(conf *Config) (*Authn, error) {
+func New(conf *Config) (*Credentials, error) {
 	client, err := mongo.NewClient(conf.MongoUrl, conf.Name)
 	if err != nil {
 		return nil, err
@@ -29,20 +29,20 @@ func New(conf *Config) (*Authn, error) {
 	var index mmongo.IndexModel
 	index.Keys = bson.M{"userid": 1}
 
-	client.DefineIndexes(mongo.NewIndexSet(AUTHN_COLLECTION_CREDENTIALS, index))
+	client.DefineIndexes(mongo.NewIndexSet(CREDENTIALS_COLLECTION, index))
 	if err := client.Connect(); err != nil {
 		return nil, err
 	}
 
-	return &Authn{conf, client}, nil
+	return &Credentials{conf, client}, nil
 }
 
-func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.CredentialResponse) error {
+func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, out *credentials.CredentialResponse) error {
 	in.Id = uuid.New()
 	out.Success = false
 
 	switch ct := in.GetCredentialType(); ct {
-	case authn.CredentialType_PASSWORD:
+	case credentials.CredentialType_PASSWORD:
 		password, err := bcrypt.GenerateFromPassword(in.Credential, bcrypt.DefaultCost)
 		if err != nil {
 			return err
@@ -58,7 +58,7 @@ func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.Cre
 		return err
 	}
 
-	collection := a.client.Collection(AUTHN_COLLECTION_CREDENTIALS)
+	collection := a.client.Collection(CREDENTIALS_COLLECTION)
 	_, err = collection.InsertOne(ctx, ins)
 	if err == nil {
 		out.Success = true
@@ -67,7 +67,7 @@ func (a *Authn) Create(ctx context.Context, in *authn.Credential, out *authn.Cre
 	return err
 }
 
-func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.CredentialResponse) error {
+func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, out *credentials.CredentialResponse) error {
 	out.Success = false
 
 	filter := bson.M{
@@ -75,8 +75,8 @@ func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.C
 		"credentialtype": in.CredentialType,
 	}
 
-	collection := a.client.Collection((AUTHN_COLLECTION_CREDENTIALS))
-	result := &authn.Credential{}
+	collection := a.client.Collection((CREDENTIALS_COLLECTION))
+	result := &credentials.Credential{}
 
 	if err := collection.FindOne(ctx, filter).Decode(result); err != nil {
 		if err == mmongo.ErrNoDocuments {
@@ -86,7 +86,7 @@ func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.C
 	}
 
 	switch ct := in.GetCredentialType(); ct {
-	case authn.CredentialType_PASSWORD:
+	case credentials.CredentialType_PASSWORD:
 		if err := bcrypt.CompareHashAndPassword(result.GetCredential(), in.GetCredential()); err != nil {
 			return a.InvalidCredential()
 		}
@@ -98,6 +98,6 @@ func (a *Authn) Validate(ctx context.Context, in *authn.Credential, out *authn.C
 	return nil
 }
 
-func (a *Authn) Update(ctx context.Context, in *authn.CredentialUpdate, out *authn.CredentialResponse) error {
+func (a *Credentials) Update(ctx context.Context, in *credentials.CredentialUpdate, out *credentials.CredentialResponse) error {
 	return errors.NotImplemented(a.ID())
 }

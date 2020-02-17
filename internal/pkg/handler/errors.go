@@ -1,15 +1,15 @@
 package handler
 
 import (
-	authn "github.com/koverto/authn/api"
+	credentials "github.com/koverto/credentials/api"
 
 	"github.com/micro/go-micro/v2/errors"
 )
 
-func (a *Authn) InvalidCredential() error {
+func (a *Credentials) InvalidCredential() error {
 	return errors.BadRequest(a.ID(), "invalid credentials")
 }
 
-func (a *Authn) InvalidCredentialType(credentialType authn.CredentialType) error {
+func (a *Credentials) InvalidCredentialType(credentialType credentials.CredentialType) error {
 	return errors.BadRequest(a.ID(), "invalid credential type: %s", credentialType)
 }
