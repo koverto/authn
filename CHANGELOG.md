@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.2.1 - 2020-02-17
+
+### Changed
+
+- User ID only required for filtering for password verification
+- Updated to github.com/koverto/uuid@v1.2.0
+
 ## v0.2.0 - 2020-02-17
 
 ### Changed
