@@ -1,5 +1,5 @@
 FROM golang:1.13-alpine AS builder
-WORKDIR /go/src/github.com/kvoerto/credentials
+WORKDIR /go/src/github.com/koverto/credentials
 ENV CGO_ENABLED=0 GO111MODULE=on
 
 RUN apk add bash build-base curl git
