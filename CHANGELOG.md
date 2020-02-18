@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.2.2 - 2020-02-17
+
+### Added
+
+- GraphQL (un)marshaling for `CredentialType`
+
 ## v0.2.1 - 2020-02-17
 
 ### Changed
