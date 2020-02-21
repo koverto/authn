@@ -4,6 +4,7 @@ import (
 	"context"
 
 	credentials "github.com/koverto/credentials/api"
+	"github.com/koverto/micro"
 
 	"github.com/koverto/errors"
 	"github.com/koverto/mongo"
@@ -17,11 +18,16 @@ const CREDENTIALS_COLLECTION = "credentials"
 
 type Credentials struct {
 	*Config
+	*micro.Service
 	client mongo.Client
 }
 
-func New(conf *Config) (*Credentials, error) {
-	client, err := mongo.NewClient(conf.MongoUrl, conf.Name)
+type Config struct {
+	MongoUrl string `json:"mongourl"`
+}
+
+func New(conf *Config, service *micro.Service) (*Credentials, error) {
+	client, err := mongo.NewClient(conf.MongoUrl, service.Name)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +43,7 @@ func New(conf *Config) (*Credentials, error) {
 		return nil, err
 	}
 
-	return &Credentials{conf, client}, nil
+	return &Credentials{conf, service, client}, nil
 }
 
 func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, out *credentials.CredentialResponse) error {
@@ -102,5 +108,5 @@ func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, 
 }
 
 func (a *Credentials) Update(ctx context.Context, in *credentials.CredentialUpdate, out *credentials.CredentialResponse) error {
-	return errors.NotImplemented(a.ID())
+	return errors.NotImplemented(a.ID)
 }

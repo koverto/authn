@@ -7,9 +7,9 @@ import (
 )
 
 func (a *Credentials) InvalidCredential() error {
-	return errors.BadRequest(a.ID(), "invalid credentials")
+	return errors.BadRequest(a.ID, "invalid credentials")
 }
 
 func (a *Credentials) InvalidCredentialType(credentialType credentials.CredentialType) error {
-	return errors.BadRequest(a.ID(), "invalid credential type: %s", credentialType)
+	return errors.BadRequest(a.ID, "invalid credential type: %s", credentialType)
 }
