@@ -12,6 +12,6 @@ require (
 	github.com/koverto/uuid v1.2.1
 	github.com/micro/go-micro/v2 v2.1.1
 	go.mongodb.org/mongo-driver v1.3.0
-	golang.org/x/crypto v0.0.0-20200214034016-1d94cc7ab1c6
+	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
 	google.golang.org/grpc v1.26.0
 )
