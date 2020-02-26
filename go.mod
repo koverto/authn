@@ -13,5 +13,5 @@ require (
 	github.com/micro/go-micro/v2 v2.1.2
 	go.mongodb.org/mongo-driver v1.3.0
 	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
-	google.golang.org/grpc v1.26.0
+	google.golang.org/grpc v1.27.1
 )
