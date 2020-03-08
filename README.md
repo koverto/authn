@@ -1,6 +1,7 @@
 # Koverto - Credentials
 
 [![Go](https://github.com/koverto/credentials/workflows/Go/badge.svg)][workflow]
+[![Go Report Card](https://goreportcard.com/badge/github.com/koverto/credentials)](https://goreportcard.com/report/github.com/koverto/credentials)
 
 ## Requirements
 
