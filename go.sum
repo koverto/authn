@@ -12,8 +12,6 @@ cloud.google.com/go/pubsub v1.0.1/go.mod h1:R0Gpsv3s54REJCy4fxDixWD93lHJMoZTyQ2k
 cloud.google.com/go/storage v1.0.0/go.mod h1:IhtSnM/ZTZV8YYJWCY8RULGVqBDmpoyjwiyrjsg+URw=
 contrib.go.opencensus.io/exporter/ocagent v0.4.12/go.mod h1:450APlNTSR6FrvC3CTRqYosuDstRB9un7SOx2k/9ckA=
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
-github.com/99designs/gqlgen v0.11.1 h1:QoSL8/AAJ2T3UOeQbdnBR32JcG4pO08+P/g5jdbFkUg=
-github.com/99designs/gqlgen v0.11.1/go.mod h1:vjFOyBZ7NwDl+GdSD4PFn7BQn5Fy7ohJwXn7Vk8zz+c=
 github.com/99designs/gqlgen v0.11.2 h1:qatIx2DY7YyaUIBd47ORY3Aj/+pJsPLoL7tyuuISJR0=
 github.com/99designs/gqlgen v0.11.2/go.mod h1:RgX5GRRdDWNkh4pBrdzNpNPFVsdoUFY2+adM6nb1N+4=
 github.com/Azure/azure-sdk-for-go v32.4.0+incompatible/go.mod h1:9XXNKU+eRnpl9moKnB4QOLf1HestfXbmab5FXxiDBjc=
@@ -276,8 +274,8 @@ github.com/konsorten/go-windows-terminal-sequences v1.0.2 h1:DB17ag19krx9CFsz4o3
 github.com/konsorten/go-windows-terminal-sequences v1.0.2/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/koverto/errors v1.0.1 h1:Ipsz9QRkk6eWOxM0oHpDyBdCSpsTTOjz6ssbBMxTkAU=
 github.com/koverto/errors v1.0.1/go.mod h1:tJsoX+XkeUD799koiw/fwZyTdMg5hhqaCUKIDc0LJK8=
-github.com/koverto/micro v1.2.0 h1:m8Gi+PfZMOSEYreobV5tgfdpIN7AiCOV75nCtfMbKZE=
-github.com/koverto/micro v1.2.0/go.mod h1:sTwc/Y8/dBPcjbS1tZVypCUhvx/9EGd/keKhgRjlnRM=
+github.com/koverto/micro/v2 v2.0.1 h1:rdqbDVB6KF/LDrROCseKeN3YKn/v6nMthVrYuXA6YY4=
+github.com/koverto/micro/v2 v2.0.1/go.mod h1:7uGyRTDJ7ve/tzAeiIeZa3jZA69QBusr5s8QmQ2vvDA=
 github.com/koverto/mongo v1.0.1 h1:2fkqdPBONOviu+PK5e2+pZpUTSpnQfbQlMACpEswkjw=
 github.com/koverto/mongo v1.0.1/go.mod h1:keeVIswfKfgTl0fuxlrLb0IJuDO6JB1/qlntNmkekFg=
 github.com/koverto/uuid v1.3.0 h1:c8Q2+0neAoF73Qbc2n5HxcvpywVYBaBKBGU5LHcHKWc=
@@ -472,7 +470,6 @@ github.com/tmc/grpc-websocket-proxy v0.0.0-20200122045848-3419fae592fc/go.mod h1
 github.com/transip/gotransip v0.0.0-20190812104329-6d8d9179b66f/go.mod h1:i0f4R4o2HM0m3DZYQWsj6/MEowD57VzoH0v3d7igeFY=
 github.com/uber-go/atomic v1.3.2/go.mod h1:/Ct5t2lcmbJ4OSe/waGBoaVvVqtO0bmtfVNex1PFV8g=
 github.com/urfave/cli v0.0.0-20171014202726-7bc6a0acffa5/go.mod h1:70zkFmudgCuE/ngEzBv17Jvp/497gISqfk5gWijbERA=
-github.com/urfave/cli v1.20.0/go.mod h1:70zkFmudgCuE/ngEzBv17Jvp/497gISqfk5gWijbERA=
 github.com/urfave/cli v1.22.1 h1:+mkCCcOFKPnCmVYVcURKps1Xe+3zP90gSYGNfRkjoIY=
 github.com/urfave/cli v1.22.1/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
 github.com/urfave/cli/v2 v2.1.1 h1:Qt8FeAtxE/vfdrLmR3rxR6JRE0RoVmbXu8+6kZtYU4k=

@@ -6,7 +6,7 @@ import (
 
 	credentials "github.com/koverto/credentials/api"
 	"github.com/koverto/credentials/internal/pkg/handler"
-	"github.com/koverto/micro"
+	"github.com/koverto/micro/v2"
 	"github.com/micro/go-micro/v2/config/source/env"
 )
 
@@ -15,7 +15,7 @@ func main() {
 		MongoURL: "mongodb://localhost:27017",
 	}
 
-	service, err := micro.NewService("com.koverto.svc.credentials", conf, env.NewSource(env.WithStrippedPrefix("KOVERTO")))
+	service, err := micro.NewService(credentials.Name, conf, env.NewSource(env.WithStrippedPrefix("KOVERTO")))
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

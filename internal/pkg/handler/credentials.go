@@ -4,9 +4,9 @@ import (
 	"context"
 
 	credentials "github.com/koverto/credentials/api"
-	"github.com/koverto/micro"
 
 	"github.com/koverto/errors"
+	"github.com/koverto/micro/v2"
 	"github.com/koverto/mongo"
 	"github.com/koverto/uuid"
 	"go.mongodb.org/mongo-driver/bson"
@@ -109,5 +109,5 @@ func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, 
 }
 
 func (a *Credentials) Update(ctx context.Context, in *credentials.CredentialUpdate, out *credentials.CredentialResponse) error {
-	return errors.NotImplemented(a.ID)
+	return errors.NotImplemented(a.Name)
 }

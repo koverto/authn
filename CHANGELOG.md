@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.4.0 - 2020-03-30
+
+### Changed
+
+- Updated to github.com/koverto/micro@v2.0.1
+
 ## v0.3.0 - 2020-03-05
 
 ### Changed
