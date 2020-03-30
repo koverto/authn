@@ -14,7 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-const CREDENTIALS_COLLECTION = "credentials"
+const credentialsCollection = "credentials"
 
 type Credentials struct {
 	*Config
@@ -23,11 +23,11 @@ type Credentials struct {
 }
 
 type Config struct {
-	MongoUrl string `json:"mongourl"`
+	MongoURL string `json:"mongourl"`
 }
 
 func New(conf *Config, service *micro.Service) (*Credentials, error) {
-	client, err := mongo.NewClient(conf.MongoUrl, service.Name)
+	client, err := mongo.NewClient(conf.MongoURL, "credentials")
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,8 @@ func New(conf *Config, service *micro.Service) (*Credentials, error) {
 	var credIndex mmongo.IndexModel
 	credIndex.Keys = bson.M{"credential": "hashed"}
 
-	client.DefineIndexes(mongo.NewIndexSet(CREDENTIALS_COLLECTION, uidIndex, credIndex))
+	client.DefineIndexes(mongo.NewIndexSet(credentialsCollection, uidIndex, credIndex))
+
 	if err := client.Connect(); err != nil {
 		return nil, err
 	}
@@ -67,7 +68,7 @@ func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, ou
 		return err
 	}
 
-	collection := a.client.Collection(CREDENTIALS_COLLECTION)
+	collection := a.client.Collection(credentialsCollection)
 	_, err = collection.InsertOne(ctx, ins)
 	if err == nil {
 		out.Success = true
@@ -86,7 +87,7 @@ func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, 
 			"credentialtype": in.CredentialType,
 		}
 
-		collection := a.client.Collection((CREDENTIALS_COLLECTION))
+		collection := a.client.Collection((credentialsCollection))
 		result := &credentials.Credential{}
 
 		if err := collection.FindOne(ctx, filter).Decode(result); err != nil {

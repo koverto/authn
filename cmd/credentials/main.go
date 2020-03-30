@@ -12,7 +12,7 @@ import (
 
 func main() {
 	conf := &handler.Config{
-		MongoUrl: "mongodb://localhost:27017",
+		MongoURL: "mongodb://localhost:27017",
 	}
 
 	service, err := micro.NewService("com.koverto.svc.credentials", conf, env.NewSource(env.WithStrippedPrefix("KOVERTO")))
