@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.5.0 - 2020-03-31
+
+### Removed
+
+- `CredentialResponse.success`
+
 ## v0.4.0 - 2020-03-30
 
 ### Changed

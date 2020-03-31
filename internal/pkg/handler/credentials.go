@@ -59,7 +59,6 @@ func (a *Credentials) Create(
 	out *credentials.CredentialResponse,
 ) error {
 	in.Id = uuid.New()
-	out.Success = false
 
 	switch ct := in.GetCredentialType(); ct {
 	case credentials.CredentialType_PASSWORD:
@@ -81,10 +80,6 @@ func (a *Credentials) Create(
 	collection := a.client.Collection(credentialsCollection)
 	_, err = collection.InsertOne(ctx, ins)
 
-	if err == nil {
-		out.Success = true
-	}
-
 	return err
 }
 
@@ -94,8 +89,6 @@ func (a *Credentials) Validate(
 	in *credentials.Credential,
 	out *credentials.CredentialResponse,
 ) error {
-	out.Success = false
-
 	switch ct := in.GetCredentialType(); ct {
 	case credentials.CredentialType_PASSWORD:
 		filter := bson.M{
@@ -120,8 +113,6 @@ func (a *Credentials) Validate(
 	default:
 		return a.InvalidCredentialType(ct)
 	}
-
-	out.Success = true
 
 	return nil
 }
