@@ -3,7 +3,7 @@ module github.com/koverto/credentials
 go 1.14
 
 require (
-	github.com/99designs/gqlgen v0.11.2
+	github.com/99designs/gqlgen v0.11.3
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.4
 	github.com/koverto/errors v1.0.1
