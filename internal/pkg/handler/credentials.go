@@ -1,3 +1,4 @@
+// Package handler defines the gRPC endpoint handlers for the Credentials service.
 package handler
 
 import (
@@ -16,16 +17,20 @@ import (
 
 const credentialsCollection = "credentials"
 
+// Credentials defines the Credentials service.
 type Credentials struct {
 	*Config
 	*micro.Service
 	client mongo.Client
 }
 
+// Config contains the configuration for an instance of the Credentials service
+// handlers.
 type Config struct {
 	MongoURL string `json:"mongourl"`
 }
 
+// New creates a new instance of the Credentials service handlers.
 func New(conf *Config, service *micro.Service) (*Credentials, error) {
 	client, err := mongo.NewClient(conf.MongoURL, "credentials")
 	if err != nil {
@@ -47,7 +52,12 @@ func New(conf *Config, service *micro.Service) (*Credentials, error) {
 	return &Credentials{conf, service, client}, nil
 }
 
-func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, out *credentials.CredentialResponse) error {
+// Create inserts a new Credential object into the database.
+func (a *Credentials) Create(
+	ctx context.Context,
+	in *credentials.Credential,
+	out *credentials.CredentialResponse,
+) error {
 	in.Id = uuid.New()
 	out.Success = false
 
@@ -70,6 +80,7 @@ func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, ou
 
 	collection := a.client.Collection(credentialsCollection)
 	_, err = collection.InsertOne(ctx, ins)
+
 	if err == nil {
 		out.Success = true
 	}
@@ -77,7 +88,12 @@ func (a *Credentials) Create(ctx context.Context, in *credentials.Credential, ou
 	return err
 }
 
-func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, out *credentials.CredentialResponse) error {
+// Validate validates the given Credential object against the database-stored value.
+func (a *Credentials) Validate(
+	ctx context.Context,
+	in *credentials.Credential,
+	out *credentials.CredentialResponse,
+) error {
 	out.Success = false
 
 	switch ct := in.GetCredentialType(); ct {
@@ -94,6 +110,7 @@ func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, 
 			if err == mmongo.ErrNoDocuments {
 				return a.InvalidCredential()
 			}
+
 			return err
 		}
 
@@ -105,9 +122,15 @@ func (a *Credentials) Validate(ctx context.Context, in *credentials.Credential, 
 	}
 
 	out.Success = true
+
 	return nil
 }
 
-func (a *Credentials) Update(ctx context.Context, in *credentials.CredentialUpdate, out *credentials.CredentialResponse) error {
+// Update updates a set of credentials stored in the database.
+func (a *Credentials) Update(
+	ctx context.Context,
+	in *credentials.CredentialUpdate,
+	out *credentials.CredentialResponse,
+) error {
 	return errors.NotImplemented(a.Name)
 }
