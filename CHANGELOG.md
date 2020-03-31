@@ -7,6 +7,15 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.5.1 - 2020-03-31
+
+### Changed
+
+- Updated to github.com/99designs/gqlgen v0.11.3
+- Updated to github.com/golang/protobuf v1.3.5
+- Updated to github.com/micro/go-micro v2.4.0
+- Updated to golang.org/x/crypto v0.0.0-20200323165209-0ec3e9974c59
+
 ## v0.5.0 - 2020-03-31
 
 ### Removed
